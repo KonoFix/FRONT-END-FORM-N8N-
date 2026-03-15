@@ -1,0 +1,7 @@
+name = "form-proxy"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+[vars]
+# Substitua pela URL real do seu webhook
+WEBHOOK_URL = "https://SUA-URL-DO-WEBHOOK-AQUI"

@@ -1,5 +1,8 @@
 # Configuracao sensivel (contem URL do webhook)
 config.js
+worker/wrangler.toml
+worker/.wrangler/
+node_modules/
 
 # Copias de backup
 index copy.html

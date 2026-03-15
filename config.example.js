@@ -1,3 +1,3 @@
-// Configuracao do Webhook
-// Copie este arquivo como "config.js" e substitua a URL abaixo pela sua URL real.
-const WEBHOOK_URL = 'https://SUA-URL-DO-WEBHOOK-AQUI';
+// URL do proxy (Cloudflare Worker)
+// Copie este arquivo como "config.js" e substitua pela URL do seu Worker.
+const WEBHOOK_URL = 'https://SEU-WORKER.SEU-SUBDOMINIO.workers.dev';
