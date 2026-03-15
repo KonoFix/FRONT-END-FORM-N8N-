@@ -1,0 +1,19 @@
+# Configuracao sensivel (contem URL do webhook)
+config.js
+
+# Copias de backup
+index copy.html
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Agent files
+.agent/
