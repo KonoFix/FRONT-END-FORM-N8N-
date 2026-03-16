@@ -1,0 +1,6 @@
+# Ignorar apenas o que nao e necessario para o site
+worker/
+index copy.html
+.agent/
+.DS_Store
+node_modules/
