@@ -239,21 +239,98 @@
 
 <body class="relative overflow-x-hidden">
 
-    <!-- ── Video Background ──────────────────────────────────── -->
+    <!-- Video Background -->
     <div class="video-bg-wrapper">
-        <video id="bgVideo" autoplay muted playsinline preload="auto" disablepictureinpicture disableremoteplayback
-            style="will-change: transform; transform: translateZ(0);">
+        <!-- Fallback animado caso o video nao rode (mobile) -->
+        <div id="videoFallback" style="
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, #1a0808 0%, #0a0505 40%, #1a0a0a 70%, #0a0505 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 12s ease infinite;
+        "></div>
+        <style>
+            @keyframes gradientShift {
+                0% {
+                    background-position: 0% 50%;
+                }
+
+                50% {
+                    background-position: 100% 50%;
+                }
+
+                100% {
+                    background-position: 0% 50%;
+                }
+            }
+        </style>
+
+        <video id="bgVideo" autoplay loop muted playsinline webkit-playsinline preload="auto" disablepictureinpicture
+            disableremoteplayback
+            style="will-change: transform; transform: translateZ(0); opacity: 0; transition: opacity 0.8s ease;">
             <source src="assets/Device_rotating_merging_other_half_delpmaspu_.mp4" type="video/mp4" />
         </video>
+
         <script>
-            // Otimização: espera o vídeo estar bufferizado antes de torná-lo visível
-            const bgVideo = document.getElementById('bgVideo');
-            bgVideo.style.opacity = '0';
-            bgVideo.style.transition = 'opacity 0.8s ease';
-            bgVideo.addEventListener('canplaythrough', () => {
-                bgVideo.style.opacity = '';  // volta à opacidade definida no CSS (0.7)
-            }, { once: true });
+                (function () {
+                    const video = document.getElementById('bgVideo');
+                    const fallback = document.getElementById('videoFallback');
+                    let videoPlaying = false;
+
+                    function onVideoPlaying() {
+                        if (videoPlaying) return;
+                        videoPlaying = true;
+                        video.style.opacity = '';  // volta a opacidade do CSS (0.7)
+                        fallback.style.display = 'none';
+                        removePlayListeners();
+                    }
+
+                    // Tenta forcar o play
+                    function tryPlay() {
+                        if (videoPlaying) return;
+                        const playPromise = video.play();
+                        if (playPromise !== undefined) {
+                            playPromise.then(onVideoPlaying).catch(function () {
+                                // Silencia o erro — sera tentado novamente na proxima interacao
+                            });
+                        }
+                    }
+
+                    // Detecta quando o video comeca a tocar
+                    video.addEventListener('playing', onVideoPlaying, { once: true });
+
+                    // Tenta play imediatamente
+                    tryPlay();
+
+                    // Tenta novamente quando os dados estiverem prontos
+                    video.addEventListener('canplay', tryPlay, { once: true });
+                    video.addEventListener('loadeddata', tryPlay, { once: true });
+
+                    // Fallback: tenta play na primeira interacao do usuario (obrigatorio em muitos mobiles)
+                    var interactionEvents = ['touchstart', 'touchend', 'click', 'scroll', 'keydown'];
+
+                    function onUserInteraction() {
+                        tryPlay();
+                    }
+
+                    function removePlayListeners() {
+                        interactionEvents.forEach(function (evt) {
+                            document.removeEventListener(evt, onUserInteraction, { passive: true });
+                        });
+                    }
+
+                    interactionEvents.forEach(function (evt) {
+                        document.addEventListener(evt, onUserInteraction, { passive: true });
+                    });
+
+                    // Timeout: se apos 8s o video nao tocou, mantem o fallback animado
+                    setTimeout(function () {
+                        if (!videoPlaying) {
+                            fallback.style.opacity = '1';
+                        }
+                    }, 8000);
+                })();
         </script>
+
         <div class="video-overlay"></div>
         <div class="video-vignette"></div>
     </div>
