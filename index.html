@@ -77,8 +77,7 @@
             height: 100%;
             object-fit: cover;
             opacity: 0.85;
-            transform: scale(1.2);
-            transform-origin: top left;
+            transform: scale(1.15);
         }
 
         /* Gradient overlay to blend video into the dark background */
@@ -101,21 +100,6 @@
                     transparent 50%,
                     rgba(10, 5, 5, 0.3) 100%);
             z-index: 2;
-        }
-
-        /* Overlay extra para cobrir marca d'agua no canto inferior direito */
-        .video-watermark-cover {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 200px;
-            height: 100px;
-            background: radial-gradient(ellipse at bottom right,
-                    rgba(10, 5, 5, 0.9) 0%,
-                    rgba(10, 5, 5, 0.6) 40%,
-                    transparent 70%);
-            z-index: 3;
-            pointer-events: none;
         }
 
         /* Glassmorphism card — dark red tinted */
@@ -350,7 +334,6 @@
 
         <div class="video-overlay"></div>
         <div class="video-vignette"></div>
-        <div class="video-watermark-cover"></div>
     </div>
 
     <!-- ── Decorative particles ──────────────────────────────── -->
