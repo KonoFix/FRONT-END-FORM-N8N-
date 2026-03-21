@@ -9,7 +9,7 @@
 // Adicione aqui o dominio onde o formulario esta hospedado.
 // Use "*" apenas em desenvolvimento.
 const ALLOWED_ORIGINS = [
-    "*" // Em producao, troque por: "https://seusite.com"
+    "https://agendamento.smartcases.com.br"
 ];
 
 function isOriginAllowed(origin) {
